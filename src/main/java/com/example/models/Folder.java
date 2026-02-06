@@ -20,7 +20,7 @@ import jakarta.persistence.UniqueConstraint;
 
 @Entity
 @Table(name = "folders", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"name"})
+    @UniqueConstraint(columnNames = {"name", "owner_id"})
 })
 public class Folder {
     
@@ -34,14 +34,18 @@ public class Folder {
     @Column(name = "creation_date", nullable = false)
     private LocalDateTime creationDate;
 
+    @Column(nullable = false, updatable = false)
+    private String ownerId;
+
     @OneToMany(mappedBy = "folder", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<File> files = new ArrayList<>();
 
     protected Folder() {}
 
-    public Folder(String name) {
+    public Folder(String name, String ownerId) {
         this.name = name;
+        this.ownerId = ownerId;
     }
 
     @PrePersist
@@ -63,7 +67,9 @@ public class Folder {
 
     public String getName() { return name; }
 
-    public LocalDateTime getCreation_date() {return creationDate; }
+    public LocalDateTime getCreationDate() {return creationDate; }
+
+    public String getOwnerId() { return ownerId; }
 
     public List<File> getFiles() { return files; }
 }

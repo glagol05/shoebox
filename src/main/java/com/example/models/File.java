@@ -28,6 +28,9 @@ public class File {
     @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false, updatable = false)
+    private String ownerId;
+
     @Column(name = "data", columnDefinition = "bytea", nullable = false)
     private byte[] data;
 
@@ -41,9 +44,10 @@ public class File {
 
     protected File() {}
 
-    public File(String name, Folder folder, byte[] data) {
+    public File(String name, String ownerId, Folder folder, byte[] data) {
         this.id = UUID.randomUUID();
         this.name = name;
+        this.ownerId = ownerId;
         this.folder = folder;
         this.data = data;
     }
@@ -55,6 +59,7 @@ public class File {
 
     public UUID getId() { return id; }
     public String getName() { return name; }
+    public String getOwnerId() { return ownerId; }
     public byte[] getData() { return data; }
     public LocalDateTime getUploadDate() { return uploadDate; }
     public Folder getFolder() { return folder; }

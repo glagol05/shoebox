@@ -36,5 +36,16 @@ public class FolderController {
         return folderService.createFolder(name);
     }
     
+    @GetMapping("/{folderName}")
+    public Folder getFolderByName(@RequestParam String folderName) {
+        return folderService.getFolderByName(folderName);
+    }
+
+    @GetMapping("/{keyword}")
+    public List<Folder> getFolderByKeyword(@RequestParam String keyword) {
+        return folderService.searchByKeyWord(keyword);
+    }
+    
+    
     
 }

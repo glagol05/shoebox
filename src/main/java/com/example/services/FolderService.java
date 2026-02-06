@@ -1,9 +1,11 @@
 package com.example.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.example.config.SecurityUtils;
 import com.example.models.Folder;
 import com.example.repositories.FolderRepository;
 
@@ -17,23 +19,27 @@ public class FolderService {
     }
 
     public List<Folder> getAllFolders() {
-        return folderRepository.findAll();
+        String ownerId = SecurityUtils.currentUserId();
+        return folderRepository.findAllByOwnerId(ownerId);
+    }
+
+    public List<Folder> searchByKeyWord(String keyword) {
+        String ownerId = SecurityUtils.currentUserId();
+        return folderRepository.findByNameContaining(keyword, ownerId);
     }
 
     public List<Folder> getFoldersByCreationDate() {
-        return folderRepository.findAllByOrderByCreationDateAsc();
+        String ownerId = SecurityUtils.currentUserId();
+        return folderRepository.findAllByOrderByCreationDateAsc(ownerId);
     }
 
     public Folder getFolderByName(String folderName) {
-        return folderRepository.findByName(folderName);
+        String ownerId = SecurityUtils.currentUserId();
+        return folderRepository.findByName(folderName, ownerId);
     }
 
     public Folder createFolder(String name) {
-        Folder folder = new Folder(name);
-        return folderRepository.save(folder);
-    }
-
-    public Folder saveFolder(Folder folder) {
-        return folderRepository.save(folder);
+        String ownerId = SecurityUtils.currentUserId();
+        return folderRepository.save(new Folder(name, ownerId));
     }
 }

@@ -43,16 +43,7 @@ public class FileController {
     @PostMapping("/upload")
     public File uploadFile(@RequestParam("file") MultipartFile multipart,
                         @RequestParam("folderName") String folderName) throws Exception {
-        Folder folder = folderService.getFolderByName(folderName);
-        if (folder == null) {
-            throw new IllegalArgumentException("Folder not found: " + folderName);
-        }
-
-        File file = new File(multipart.getOriginalFilename(), folder, multipart.getBytes());
-        fileService.saveFile(file);
-        folder.addFile(file);
-        //folderService.saveFolder(folder);
-        return file;
+        return fileService.saveFile(multipart.getOriginalFilename(), folderName, multipart);
     }
 
     @GetMapping("/download/{fileName}")
@@ -67,7 +58,6 @@ public class FileController {
             .contentType(MediaType.APPLICATION_OCTET_STREAM)
             .body(file.getData());
     }
-    
 
     @DeleteMapping("/delete/{fileName}")
     public void deleteFile(@PathVariable String fileName) {

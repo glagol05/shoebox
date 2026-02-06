@@ -11,8 +11,9 @@ import com.example.models.Folder;
 
 
 public interface FileRepository extends JpaRepository<File, UUID> {
-    List<File> findByFolder(Folder folder);
-    List<File> findAllByName(String name);
-    List<File> findByNameContaining(String keyword);
-    Optional<File> findByName(String name);
+    List<File> findByFolder(Folder folder, String ownerID);
+    List<File> findAllByName(String name, String ownerId);
+    List<File> findByNameContaining(String keyword, String ownerId);
+    Optional<File> findByName(String name, String ownerId);
+    List<File> findAllByOwnerId(String ownerId);
 }
