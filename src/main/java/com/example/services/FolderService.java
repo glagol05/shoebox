@@ -36,4 +36,9 @@ public class FolderService {
     public Folder saveFolder(Folder folder) {
         return folderRepository.save(folder);
     }
+
+    public void deleteFolder(String folderName) {
+        Folder folder = getFolderByName(folderName);
+        folderRepository.delete(folder);
+    }
 }
