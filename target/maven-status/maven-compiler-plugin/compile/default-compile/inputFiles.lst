@@ -1,4 +1,5 @@
 /home/user05/java/spring-boot-dropbox/src/main/java/com/example/ShoeBox.java
+/home/user05/java/spring-boot-dropbox/src/main/java/com/example/config/SecurityConfig.java
 /home/user05/java/spring-boot-dropbox/src/main/java/com/example/controller/FileController.java
 /home/user05/java/spring-boot-dropbox/src/main/java/com/example/controller/FolderController.java
 /home/user05/java/spring-boot-dropbox/src/main/java/com/example/models/File.java
