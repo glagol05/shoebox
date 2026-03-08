@@ -10,9 +10,11 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
@@ -20,16 +22,21 @@ import jakarta.persistence.UniqueConstraint;
 
 @Entity
 @Table(name = "folders", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"name"})
+        @UniqueConstraint(columnNames = {"name"})
 })
 public class Folder {
-    
+
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue
     @Column(columnDefinition = "uuid", updatable = false, nullable = false)
     private UUID id;
 
+    @Column(nullable = false)
     private String name;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @Column(name = "creation_date", nullable = false)
     private LocalDateTime creationDate;
@@ -40,8 +47,9 @@ public class Folder {
 
     protected Folder() {}
 
-    public Folder(String name) {
+    public Folder(String name, User user) {
         this.name = name;
+        this.user = user;
     }
 
     @PrePersist
@@ -60,10 +68,9 @@ public class Folder {
     }
 
     public UUID getId() { return id; }
-
     public String getName() { return name; }
-
-    public LocalDateTime getCreation_date() {return creationDate; }
-
+    public LocalDateTime getCreationDate() { return creationDate; }
     public List<File> getFiles() { return files; }
+    public User getUser() { return user; }
+    public void setUser(User user) { this.user = user; }
 }

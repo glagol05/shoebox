@@ -1,4 +1,10 @@
 com/example/controller/FileController.class
+com/example/models/User.class
+com/example/repositories/FolderRepository.class
 com/example/services/FolderService.class
+com/example/models/File.class
+com/example/models/Folder.class
 com/example/ShoeBox.class
+com/example/repositories/FileRepository.class
 com/example/services/FileService.class
+com/example/controller/FolderController.class

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.models.File;
 import com.example.models.Folder;
+import com.example.models.User;
 import com.example.repositories.FileRepository;
 
 @Service
@@ -47,5 +48,11 @@ public class FileService {
         File file = fileRepository.findByName(fileName)
             .orElseThrow(() -> new IllegalArgumentException("File not found: " + fileName));
         fileRepository.delete(file);
+    }
+
+    public List<File> getFilesForUser(User user) {
+        return fileRepository.findAll().stream()
+                .filter(f -> f.getFolder().getUser().getId().equals(user.getId()))
+                .toList();
     }
 }
